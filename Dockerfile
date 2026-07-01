@@ -28,12 +28,13 @@ COPY --from=builder /app/dist /app/dist
 COPY --from=builder /app/node_modules /app/node_modules
 COPY --from=builder /app/package.json /app/package.json
 COPY entrypoint.sh /app/entrypoint.sh
+COPY server.js /app/server.js
 
 # Make entrypoint executable
 RUN chmod +x /app/entrypoint.sh
 
-# Expose the health check port
-EXPOSE 3000
+# Expose the default port (will be overridden by PORT env var)
+EXPOSE 10000
 
-# Use entrypoint script that runs both health HTTP and MCP stdio
+# Use entrypoint script that runs both health HTTP and MCP SSE
 ENTRYPOINT ["/bin/sh", "/app/entrypoint.sh"]
