@@ -28,12 +28,7 @@ COPY --from=builder /app/dist /app/dist
 COPY --from=builder /app/node_modules /app/node_modules
 COPY --from=builder /app/package.json /app/package.json
 
-# Set environment variables (adjust as necessary)
-ENV STEEL_LOCAL=true
-ENV STEEL_BASE_URL=http://localhost:3000
-ENV GLOBAL_WAIT_SECONDS=1
-
-# Expose the necessary port if required by your application
+# Expose the necessary port
 EXPOSE 3000
 
 # Define the command to run your application
