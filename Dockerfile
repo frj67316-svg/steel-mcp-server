@@ -27,9 +27,13 @@ WORKDIR /app
 COPY --from=builder /app/dist /app/dist
 COPY --from=builder /app/node_modules /app/node_modules
 COPY --from=builder /app/package.json /app/package.json
+COPY entrypoint.sh /app/entrypoint.sh
 
-# Expose the necessary port
+# Make entrypoint executable
+RUN chmod +x /app/entrypoint.sh
+
+# Expose the health check port
 EXPOSE 3000
 
-# Define the command to run your application
-ENTRYPOINT ["node", "dist/index.js"]
+# Use entrypoint script that runs both health HTTP and MCP stdio
+ENTRYPOINT ["/bin/sh", "/app/entrypoint.sh"]
